@@ -12,6 +12,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - uses: aquacash5/npm-gpr-auth@v2
         with:
-          token: ${{ secrets.NPM_AUTH_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - run: npm install
       - run: npm publish
