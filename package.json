@@ -1,5 +1,5 @@
 {
-  "name": "@fbuireu/fbuireu_cli",
+  "name": "fbuireu_cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
