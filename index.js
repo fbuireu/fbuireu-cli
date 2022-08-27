@@ -138,3 +138,5 @@ await sleep(3000)
 // "build": "tsc src/index.ts --outDir dist --module ES6"
 // dist/index.js + add to gitignore
 // move to organization
+
+// revisar mateix en actions en fbuireu
