@@ -1,32 +1,54 @@
-name: Node.js Package
-on:
-  push:
-    branches: [main]
-  release:
-    types: [created]
+name: CI
+
+on: [push]
+
 jobs:
+  static:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - uses: jgierer12/npm-auth-gpr@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm install
+      - run: npm run test:static
+
+  unit:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: jgierer12/npm-auth-gpr@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm install
+      - run: npm run test:unit
+
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
         with:
-          node-version: 16
-      - run: npm ci
-      - run: npm test
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+          node-version: ${{ matrix.node-version }}
+      - uses: jgierer12/npm-auth-gpr@v1
         with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com/
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm install
+      - run: npm run build
