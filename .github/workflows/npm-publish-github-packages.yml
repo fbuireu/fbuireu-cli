@@ -33,7 +33,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install
-      - run: npm run test:unit
+      # - run: npm run test:unit
 
   build:
     runs-on: ubuntu-latest
