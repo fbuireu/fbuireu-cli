@@ -15,7 +15,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": " test command: exit 0"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "author": "",
   "license": "ISC",
