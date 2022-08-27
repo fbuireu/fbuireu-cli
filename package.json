@@ -1,10 +1,11 @@
 {
-  "name": "fbuireu_cli",
+  "name": "@fbuireu/fbuireu_cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "bin": "./index.js",
+  "repository": "https://github.com/fbuireu/fbuireu_cli",
   "dependencies": {
     "chalk": "^5.0.1",
     "chalk-animation": "^2.0.2",
