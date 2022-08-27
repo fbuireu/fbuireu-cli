@@ -28,6 +28,6 @@ jobs:
         run: |
           # so simple and have only two steps:
           # set the publish registry config of npm 
-          npm config set //npm.pkg.github.com/:_authToken=${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          npm config set //npm.pkg.github.com/:_authToken=${{ secrets.NPM_ACCESS_TOKEN }} 
           # the publish command
           npm publish
