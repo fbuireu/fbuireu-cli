@@ -1,5 +1,5 @@
 {
-  "name": "ferranfbuireu_cli",
+  "name": "@fbuireu/ferranfbuireu_cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,10 +15,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "publishConfig": {
-    "registry":"https://npm.pkg.github.com/@fbuireu"
+    "test": " test command: exit 0"
   },
   "author": "",
   "license": "ISC",
