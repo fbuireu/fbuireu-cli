@@ -26,12 +26,12 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v1
         with:
           always-auth: true
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: fbuireu
+          scope: '@fbuireu'
       - run: npm ci
       - run: |
           sed -i 's+"name": ".*+"name": "@${{ github.repository }}",+gI' ./package.json
