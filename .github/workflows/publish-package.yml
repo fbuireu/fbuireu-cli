@@ -31,6 +31,7 @@ jobs:
           always-auth: true
           node-version: 12
           registry-url: https://npm.pkg.github.com/
+          scope: fbuireu
       - run: npm ci
       - run: |
           sed -i 's+"name": ".*+"name": "@${{ github.repository }}",+gI' ./package.json
