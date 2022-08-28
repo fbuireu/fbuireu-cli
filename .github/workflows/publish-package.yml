@@ -25,8 +25,8 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           always-auth: true
           node-version: 12
