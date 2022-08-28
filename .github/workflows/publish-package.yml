@@ -3,6 +3,7 @@
 
 name: Node.js Package
 on:
+  workflow_dispatch: # add rquire a version nu,ber
   push:
     branches: [main]
     tags: ['v*']
@@ -26,12 +27,11 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           always-auth: true
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@fbuireu'
       - run: npm ci
       - run: |
           sed -i 's+"name": ".*+"name": "@${{ github.repository }}",+gI' ./package.json
