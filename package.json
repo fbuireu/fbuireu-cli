@@ -1,5 +1,5 @@
 {
-  "name": "@fbuireu/fbuireu_cli",
+  "name": "@fbuireu/fbuireu-cli",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,9 @@
   "bin": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fbuireu/fbuireu-cli.git"
-  },  "dependencies": {
+    "url": "git+https://github.com/fbuireu/fbuireu-cli.git"
+  },
+  "dependencies": {
     "chalk": "^5.0.1",
     "chalk-animation": "^2.0.2",
     "figlet": "^1.5.2",
