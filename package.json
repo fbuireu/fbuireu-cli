@@ -5,8 +5,10 @@
   "main": "index.js",
   "type": "module",
   "bin": "./index.js",
-  "repository": "https://github.com/fbuireu/fbuireu_cli",
-  "dependencies": {
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fbuireu/fbuireu-cli.git"
+  },  "dependencies": {
     "chalk": "^5.0.1",
     "chalk-animation": "^2.0.2",
     "figlet": "^1.5.2",
@@ -17,6 +19,9 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   },
   "author": "",
   "license": "ISC",
