@@ -1,6 +1,6 @@
 {
   "name": "@fbuireu/fbuireu-cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -8,6 +8,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/fbuireu/fbuireu-cli.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "chalk": "^5.0.1",
