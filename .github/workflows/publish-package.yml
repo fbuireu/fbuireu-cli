@@ -39,7 +39,10 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
         if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
-      - run: npm version ${{ inputs.release_type }}
+      - run: |
+          git config --global user.email "fbuireu@gmail.com"
+          git config --global user.name "Ferran Buireu"
+          npm version ${{ inputs.release_type }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -54,6 +57,11 @@ jobs:
           registry-url: https://registry.npmjs.org/
           scope: '@fbuireu'
       - run: npm ci
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+      - run: |
+          git config --global user.email "fbuireu@gmail.com"
+          git config --global user.name "Ferran Buireu"
+          npm version ${{ inputs.release_type }}
       - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
