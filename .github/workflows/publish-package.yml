@@ -3,7 +3,7 @@
 
 name: Publish package
 on:
-  workflow_dispatch: # add rquire a version nu,ber
+  workflow_dispatch: # add rquire a version number. Veure npm--version etc
   push:
     branches: [main]
     tags: ['v*']
@@ -39,9 +39,6 @@ jobs:
   publish-to-npm:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
