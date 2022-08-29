@@ -134,10 +134,7 @@ await sleep(3000)
 // https://github.com/thormeier/minesweeper.js
 
 // https://pakstech.com/blog/inquirer-js/
-// add readme, license, etc
+// add readme, license, bug, i package.json opts
 
 // "build": "tsc src/index.ts --outDir dist --module ES6"
 // dist/index.js + add to gitignore
-// move to organization
-// publicar a NPM tambe?
-// revisar mateix en actions en fbuireu
