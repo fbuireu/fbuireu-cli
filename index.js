@@ -1,140 +1,195 @@
 #!/usr/bin/env node
 
-import chalkAnimation from 'chalk-animation'
-import inquirer from 'inquirer'
-import { createSpinner } from 'nanospinner'
-import figlet from 'figlet'
-import gradient from 'gradient-string'
-import { pickNerdFont } from './utils/pickNerdFont.js'
-import { MESSAGES } from './data/messages.js'
+import fs from 'fs';
+import {
+  intro,
+  outro,
+  confirm,
+  select,
+  spinner as showSpinner,
+  isCancel,
+  cancel,
+  text,
+    note
+} from '@clack/prompts';
+import { promisify } from 'util';
+import color from 'picocolors';
+import * as path from 'node:path';
+import * as os from 'node:os';
 
-const sleep = (ms = 1500) => new Promise((resolve) => setTimeout(resolve, ms))
+const writeFileAsync = promisify(fs.writeFile);
 
-async function welcome () {
-    figlet(MESSAGES.introduction.title, {
-        font: pickNerdFont(),
-        horizontalLayout: 'fitted',
-    }, async (error, message) => {
-        if (error) {
-            console.log(MESSAGES.error.quit) // handle in handleError
-            process.exit(1)
+async function main() {
+  console.clear()
+  intro(color.underline('Welcome to my CLI Portfolio'));
+
+  const mainMenuOptions = [
+    { value: '1', label: 'I want to know more about you' },
+    { value: '2', label: 'I want to know your recent experience' },
+    { value: '3', label: 'Download my CV/Resume' },
+    { value: '4', label: 'WTF is this? I want to leave', hint: 'hello darkness my old friend...' },
+  ];
+
+  let mainMenuResponse;
+  do {
+    mainMenuResponse = await select({
+      message: 'Please select your option',
+      options: mainMenuOptions,
+    });
+
+    if (isCancel(mainMenuResponse)) {
+      cancel('Operation cancelled. Ciaoo ciao ciao ciao');
+      process.exit(0);
+    }
+
+    switch (mainMenuResponse) {
+      case '1':
+        await showAboutYouSubMenu();
+        break;
+      case '2':
+        await showExperienceSubMenu();
+        break;
+      case '3':
+        await downloadCV();
+        break;
+      case '4':
+        const exitOption = await confirmExit();
+        if (exitOption === 'mainMenu') {
+          continue;
         }
-        console.log(`${gradient.rainbow.multiline(message)}`)
-        const subtitle = chalkAnimation.rainbow(MESSAGES.introduction.subtitle)
-        await sleep(2900)
-        subtitle.stop()
-    })
-}
-
-async function mainMenu () {
-    try {
-        inquirer.prompt(MESSAGES.mainMenu).
-            then(({ menuOption }) => handleSelection(menuOption))
-    } catch (error) {
-        handleError({ error })
+        return process.exit(0);
+      default:
+        break;
     }
+  } while (true);
 }
 
-const handleError = ({ error }) => {
-    console.error(
-        error.isTtyError ? MESSAGES.error.tty : MESSAGES.error.unknown)
-    process.exit(1)
-}
+async function showAboutYouSubMenu() {
+  const aboutYouSubMenuOptions = [
+    { value: '1', label: 'Tell me about your hobbies and interests' },
+    { value: '2', label: 'Share some personal anecdotes' },
+    { value: '0', label: 'Go back to main menu' },
+  ];
 
-const exit = async () => {
-    const spinner = createSpinner().start()
-    await sleep(1000)
-    spinner.success({ text: 'I can do that' })
-    await sleep(200)
-    process.exit(1)
-}
+  if (isCancel(aboutYouSubMenuOptions)) {
+    cancel('Operation cancelled. Ciaoo ciao ciao ciao');
+    process.exit(0);
+  }
 
-const handleSelection = async (selection) => {
-    if (selection === 'Exit') {
-        await exit()
-    } else if (selection === 'Know more about you') {
-        await showCv()
-    } else if (selection === 'WTF is that? I just want to play a game') {
-        console.log('GAMEW')
+  let aboutYouSubMenuResponse;
+  do {
+    aboutYouSubMenuResponse = await select({
+      message: 'Please select your option',
+      options: aboutYouSubMenuOptions,
+    });
+
+    switch (aboutYouSubMenuResponse) {
+      case '1':
+        console.log('Hobbies and interests: TODO');
+        break;
+      case '2':
+        console.log('Personal anecdotes: TODO');
+        break;
+      case '0':
+        return;
+      default:
+        break;
     }
+  } while (true);
 }
 
-const showCv = async () => {
-    try {
-        const questions = [
-            {
-                type: 'list',
-                name: 'survey',
-                message: 'Do you want to know more about me? 1 Do you want to know more about me? 1 Do you want to know more about me? 1 Do you want to know more about me? 1 \n \n' +
-                    '' +
-                    '' +
-                    '' +
-                    '' +
-                    'Do you want to know more about me? 1Do you want to know more about me? 1Do you want to know more about me? 1Do you want to know more about me? 1Do you want to know more about me? 1Do you want to know more about me? 1Do you want to know more about me? 1Do you want to know more about me? 1Do you want to know more about me? 1',
-                choices: ['yes', 'no'],
-            },
-            {
-                type: 'list',
-                name: 'happiness',
-                message: 'Do you want to know more about me? 2',
-                choices: [
-                    'Very happy',
-                    'Quite happy',
-                    'Neutral',
-                    'Not quite happy',
-                    'Unhappy'],
-                when (answers) {
-                    return answers.survey === 'yes'
-                },
-            },
-            {
-                type: 'input',
-                name: 'feedback',
-                message: 'Please give us open feedback (optional)',
-                when (answers) {
-                    return answers.happiness === 'yes'
-                },
-            },
-        ]
-        console.log('I was born in Barcelona bla bla bla')
-        inquirer.prompt(questions).then((answers) => {
-            console.log(JSON.stringify(answers, null, 2))
-        }).catch((error) => {
-            if (error.isTtyError) {
-                console.log('Your console environment is not supported!')
-            } else {
-                console.log(error)
-            }
-        })
-    } catch (error) {
-        if (error.isTtyError) {
-            console.error('Your console environment is not supported!')
-        } else {
-            console.error('Something else went wrong!')
-        }
+async function showExperienceSubMenu() {
+  const experienceSubMenuOptions = [
+    { value: '1', label: 'List your recent work experiences' },
+    { value: '2', label: 'Highlight your skills and achievements' },
+    { value: '0', label: 'Go back to main menu' },
+  ];
+
+  if (isCancel(experienceSubMenuOptions)) {
+    cancel('Operation cancelled. Ciaoo ciao ciao ciao');
+    process.exit(0);
+  }
+
+  let experienceSubMenuResponse;
+  do {
+    experienceSubMenuResponse = await select({
+      message: 'Please select your option',
+      options: experienceSubMenuOptions,
+    });
+
+    switch (experienceSubMenuResponse) {
+      case '1':
+        console.log('Recent work experiences: TODO');
+        break;
+      case '2':
+        console.log('Skills and achievements: TODO');
+        break;
+      case '0':
+        return;
+      default:
+        break;
     }
-
+  } while (true);
 }
 
+async function downloadCV() {
+  const spinner = showSpinner();
+  spinner.start('Downloading CV');
+  try {
+    const response = await fetch('https://github.com/fbuireu/fbuireu/blob/main/assets/pdf/CV-English.pdf');
+    const arrayBuffer = await response.arrayBuffer();
+    const timestamp = Date.now();
+    const filename = `Ferran_Buireu_CV_${timestamp}.pdf`;
+    const isWindows= process.platform === 'win32'
+    const folder = isWindows ? path.join(process.env.USERPROFILE, 'Downloads'): path.join(os.homedir(), 'Downloads');
+    const filePath = path.join(folder, filename);
 
-console.clear()
-await welcome()
-await sleep(3000)
-await mainMenu()
-await sleep(3000)
-//createSpinner().start()
+    await writeFileAsync(filePath, Buffer.from(arrayBuffer));
+    spinner.stop(color.green("CV downloaded successfully"));
+    note(`Look at ${filePath}`, '👀')
+  } catch (error) {
+    spinner.stop(color.red(`Error downloading CV: ${error.message}`))
+  }
+}
 
-// todo: add CV as
-// language support (multiple json or single json?)
-// add XSS
-//add condition to exit
-// add game:
-// - https://github.com/arvindr21/cli-adventure-games
-// -https://github.com/polltery/node-cli-game-example -- https://github.com/polltery/node-cli-game-example/issues/19
-// https://github.com/thormeier/minesweeper.js
+async function confirmExit() {
+  const shouldContinue = await confirm({
+    message: 'Do you want to continue?',
+  });
 
-// https://pakstech.com/blog/inquirer-js/
-// add readme, license, bug, i package.json opts
+  if (!shouldContinue) {
+    const exitOption = await select({
+      message: 'Ok, you are driving me crazy. What do you want to do?',
+      options: [
+        { value: 'mainMenu', label: 'Return to main menu' },
+        { value: 'exit', label: 'Exit' },
+      ],
+      initialValue: 'mainMenu',
+    });
 
-// "build": "tsc src/index.ts --outDir dist --module ES6"
-// dist/index.js + add to gitignore
+    if (exitOption === 'mainMenu') {
+      return 'mainMenu';
+    } else if (exitOption === 'exit') {
+      cancel('Goodbye! See you next time!\n See you');
+      outro("It's been a pleasure");
+      process.exit(0);
+    }
+  }
+}
+
+main().catch(console.error);
+
+
+/* todo: finish content
+*   refactor (isolate)
+*   add title
+*   add language support (add specific JSONs)
+*   add game
+*    - https://github.com/polltery/node-cli-game-example -- https://github.com/polltery/node-cli-game-example/issues/19
+*   add build/release system (based on tags, etc)
+*   add scripts package.json
+*   add readme, license, bug
+*   add tests (node:assert)
+*   add renovate + automated PRs
+*   migrate to TS and check drawbacks (rollup?, dist folder, package.json, caveats, etc)
+*  */
