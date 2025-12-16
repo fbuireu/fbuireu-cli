@@ -6,7 +6,7 @@
       "customManagers:biomeVersions"
    ],
    "labels": ["dependencies", "renovate", "bot"],
-   "schedule": ["every weekend"],
+	"schedule": ["every 2 weeks"],
    "assigneesFromCodeOwners": true,
    "reviewersFromCodeOwners": true,
    "packageRules": [
