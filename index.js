@@ -1,43 +1,50 @@
 #!/usr/bin/env node
 
 import fs from 'fs';
-import {
-  intro,
-  outro,
-  confirm,
-  select,
-  spinner as showSpinner,
-  isCancel,
-  cancel,
-  text,
-    note
-} from '@clack/prompts';
+import { select, confirm } from '@inquirer/prompts';
 import { promisify } from 'util';
-import color from 'picocolors';
+import chalk from 'chalk';
+import ora from 'ora';
 import * as path from 'node:path';
 import * as os from 'node:os';
 
 const writeFileAsync = promisify(fs.writeFile);
 
-async function main() {
-  console.clear()
-  intro(color.underline('Welcome to my CLI Portfolio'));
+function intro(msg) {
+  console.log(chalk.bold(`\n  ${msg}\n`));
+}
 
-  const mainMenuOptions = [
-    { value: '1', label: 'I want to know more about you' },
-    { value: '2', label: 'I want to know your recent experience' },
-    { value: '3', label: 'Download my CV/Resume' },
-    { value: '4', label: 'WTF is this? I want to leave', hint: 'hello darkness my old friend...' },
+function outro(msg) {
+  console.log(chalk.bold(`\n  ${msg}\n`));
+}
+
+function cancel(msg) {
+  console.log(chalk.red(`\n  ${msg}\n`));
+}
+
+function note(msg, title) {
+  console.log(`\n  ${chalk.bold(title)}\n  ${msg}\n`);
+}
+
+async function main() {
+  console.clear();
+  intro(chalk.underline('Welcome to my CLI Portfolio'));
+
+  const mainMenuChoices = [
+    { value: '1', name: 'I want to know more about you' },
+    { value: '2', name: 'I want to know your recent experience' },
+    { value: '3', name: 'Download my CV/Resume' },
+    { value: '4', name: 'WTF is this? I want to leave', description: 'hello darkness my old friend...' },
   ];
 
   let mainMenuResponse;
   do {
-    mainMenuResponse = await select({
-      message: 'Please select your option',
-      options: mainMenuOptions,
-    });
-
-    if (isCancel(mainMenuResponse)) {
+    try {
+      mainMenuResponse = await select({
+        message: 'Please select your option',
+        choices: mainMenuChoices,
+      });
+    } catch {
       cancel('Operation cancelled. Ciaoo ciao ciao ciao');
       process.exit(0);
     }
@@ -52,12 +59,13 @@ async function main() {
       case '3':
         await downloadCV();
         break;
-      case '4':
+      case '4': {
         const exitOption = await confirmExit();
         if (exitOption === 'mainMenu') {
           continue;
         }
         return process.exit(0);
+      }
       default:
         break;
     }
@@ -65,25 +73,25 @@ async function main() {
 }
 
 async function showAboutYouSubMenu() {
-  const aboutYouSubMenuOptions = [
-    { value: '1', label: 'Tell me about your hobbies and interests' },
-    { value: '2', label: 'Share some personal anecdotes' },
-    { value: '0', label: 'Go back to main menu' },
+  const choices = [
+    { value: '1', name: 'Tell me about your hobbies and interests' },
+    { value: '2', name: 'Share some personal anecdotes' },
+    { value: '0', name: 'Go back to main menu' },
   ];
 
-  if (isCancel(aboutYouSubMenuOptions)) {
-    cancel('Operation cancelled. Ciaoo ciao ciao ciao');
-    process.exit(0);
-  }
-
-  let aboutYouSubMenuResponse;
+  let response;
   do {
-    aboutYouSubMenuResponse = await select({
-      message: 'Please select your option',
-      options: aboutYouSubMenuOptions,
-    });
+    try {
+      response = await select({
+        message: 'Please select your option',
+        choices,
+      });
+    } catch {
+      cancel('Operation cancelled. Ciaoo ciao ciao ciao');
+      process.exit(0);
+    }
 
-    switch (aboutYouSubMenuResponse) {
+    switch (response) {
       case '1':
         console.log('Hobbies and interests: TODO');
         break;
@@ -99,25 +107,25 @@ async function showAboutYouSubMenu() {
 }
 
 async function showExperienceSubMenu() {
-  const experienceSubMenuOptions = [
-    { value: '1', label: 'List your recent work experiences' },
-    { value: '2', label: 'Highlight your skills and achievements' },
-    { value: '0', label: 'Go back to main menu' },
+  const choices = [
+    { value: '1', name: 'List your recent work experiences' },
+    { value: '2', name: 'Highlight your skills and achievements' },
+    { value: '0', name: 'Go back to main menu' },
   ];
 
-  if (isCancel(experienceSubMenuOptions)) {
-    cancel('Operation cancelled. Ciaoo ciao ciao ciao');
-    process.exit(0);
-  }
-
-  let experienceSubMenuResponse;
+  let response;
   do {
-    experienceSubMenuResponse = await select({
-      message: 'Please select your option',
-      options: experienceSubMenuOptions,
-    });
+    try {
+      response = await select({
+        message: 'Please select your option',
+        choices,
+      });
+    } catch {
+      cancel('Operation cancelled. Ciaoo ciao ciao ciao');
+      process.exit(0);
+    }
 
-    switch (experienceSubMenuResponse) {
+    switch (response) {
       case '1':
         console.log('Recent work experiences: TODO');
         break;
@@ -133,47 +141,51 @@ async function showExperienceSubMenu() {
 }
 
 async function downloadCV() {
-  const spinner = showSpinner();
-  spinner.start('Downloading CV');
+  const spinner = ora('Downloading CV').start();
   try {
     const response = await fetch('https://github.com/fbuireu/fbuireu/blob/main/assets/pdf/CV-English.pdf');
     const arrayBuffer = await response.arrayBuffer();
     const timestamp = Date.now();
     const filename = `Ferran_Buireu_CV_${timestamp}.pdf`;
-    const isWindows= process.platform === 'win32'
-    const folder = isWindows ? path.join(process.env.USERPROFILE, 'Downloads'): path.join(os.homedir(), 'Downloads');
+    const isWindows = process.platform === 'win32';
+    const folder = isWindows ? path.join(process.env.USERPROFILE, 'Downloads') : path.join(os.homedir(), 'Downloads');
     const filePath = path.join(folder, filename);
 
     await writeFileAsync(filePath, Buffer.from(arrayBuffer));
-    spinner.stop(color.green("CV downloaded successfully"));
-    note(`Look at ${filePath}`, '👀')
+    spinner.succeed(chalk.green('CV downloaded successfully'));
+    note(`Look at ${filePath}`, '👀');
   } catch (error) {
-    spinner.stop(color.red(`Error downloading CV: ${error.message}`))
+    spinner.fail(chalk.red(`Error downloading CV: ${error.message}`));
   }
 }
 
 async function confirmExit() {
-  const shouldContinue = await confirm({
-    message: 'Do you want to continue?',
-  });
-
-  if (!shouldContinue) {
-    const exitOption = await select({
-      message: 'Ok, you are driving me crazy. What do you want to do?',
-      options: [
-        { value: 'mainMenu', label: 'Return to main menu' },
-        { value: 'exit', label: 'Exit' },
-      ],
-      initialValue: 'mainMenu',
+  try {
+    const shouldContinue = await confirm({
+      message: 'Do you want to continue?',
     });
 
-    if (exitOption === 'mainMenu') {
-      return 'mainMenu';
-    } else if (exitOption === 'exit') {
-      cancel('Goodbye! See you next time!\n See you');
-      outro("It's been a pleasure");
-      process.exit(0);
+    if (!shouldContinue) {
+      const exitOption = await select({
+        message: 'Ok, you are driving me crazy. What do you want to do?',
+        choices: [
+          { value: 'mainMenu', name: 'Return to main menu' },
+          { value: 'exit', name: 'Exit' },
+        ],
+        default: 'mainMenu',
+      });
+
+      if (exitOption === 'mainMenu') {
+        return 'mainMenu';
+      } else if (exitOption === 'exit') {
+        cancel('Goodbye! See you next time!\n See you');
+        outro("It's been a pleasure");
+        process.exit(0);
+      }
     }
+  } catch {
+    cancel('Operation cancelled. Ciaoo ciao ciao ciao');
+    process.exit(0);
   }
 }
 
