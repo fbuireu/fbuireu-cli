@@ -20,7 +20,7 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
-    container: node:24.15.0-bookworm@sha256:f22d6a1f082c02f292e86929b5b0442ac2e5eaf438a5dea9b1566601c3e05940
+    container: node:24.16.0-bookworm@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     permissions:
       contents: read
     steps:
@@ -36,7 +36,7 @@ jobs:
     name: Publish to GitHub Packages
     needs: build
     runs-on: ubuntu-latest
-    container: node:24.15.0-bookworm@sha256:f22d6a1f082c02f292e86929b5b0442ac2e5eaf438a5dea9b1566601c3e05940
+    container: node:24.16.0-bookworm@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     permissions:
       contents: read
       packages: write
@@ -68,7 +68,7 @@ jobs:
     name: Publish to npm Registry
     needs: build
     runs-on: ubuntu-latest
-    container: node:24.15.0-bookworm@sha256:f22d6a1f082c02f292e86929b5b0442ac2e5eaf438a5dea9b1566601c3e05940
+    container: node:24.16.0-bookworm@sha256:8530f76a96d88820d288761f022e318970dda93d01536919fbc16076b7983e63
     permissions:
       contents: read
       id-token: write
