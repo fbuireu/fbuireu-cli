@@ -36,6 +36,9 @@ coverage/
 node_modules/
 jspm_packages/
 
+# Build output — never committed, see docs/adr/0003
+dist/
+
 # npm
 .npm
 *.tgz
