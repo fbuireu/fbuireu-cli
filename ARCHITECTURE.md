@@ -126,9 +126,11 @@ has quietly become false is worse than no list at all.
 - **`src/` does not exist.** The v1 `index.js` was deleted and the TypeScript rewrite has not landed. §1 and
   §2 are therefore a specification, not a description. Lint, typecheck and coverage already pass on the
   empty tree; only `build` cannot run without an entry point, so a `hashFiles('src/**/*.ts')` guard skips it
-  in `ci.yml`, skips the whole job in `release.yml` — publishing without `dist/` would ship a package whose
-  `bin` does not exist — and a matching `[ ! -d src ]` guard sits in `.husky/pre-push`. All three become
-  permanently true when sources land, and the guards should be deleted then rather than left to rot.
+  in `ci.yml`, skips the build and publish steps in `release.yml` — publishing without `dist/` would ship a
+  package whose `bin` does not exist — and a matching `[ ! -d src ]` guard sits in `.husky/pre-push`. All
+  three become permanently true when sources land, and should be deleted then rather than left to rot.
+  (`hashFiles` only works in a step-level `if`: at job level it is evaluated before checkout and the
+  workflow fails to start.)
 - **The Portfolio has no content.** The v1 printed `'Hobbies and interests: TODO'` and three siblings of it.
   Whatever replaces them has to exist in English, Spanish and Catalan from the first commit — see
   [ADR 0004](./docs/adr/0004-the-locale-selects-the-cv-edition.md).

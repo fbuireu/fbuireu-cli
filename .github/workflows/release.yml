@@ -16,9 +16,6 @@ jobs:
   release:
     name: Semantic Release
     runs-on: ubuntu-latest
-    # Nothing is publishable until there are sources to bundle: `dist/` is built here,
-    # never committed, so a run without `src/` would publish a package with no entry point.
-    if: hashFiles('src/**/*.ts') != ''
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -35,13 +32,21 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-      - name: Validate
-        run: pnpm run validate
+      - name: Check
+        run: pnpm run check
+      # Nothing is publishable until there are sources to bundle: `dist/` is built here and
+      # never committed, so publishing without `src/` would ship a package with no entry
+      # point. The guard becomes permanently true once sources land; delete it then.
+      - name: Build
+        if: hashFiles('src/**/*.ts') != ''
+        run: pnpm run build
       - name: Authenticate against GitHub Packages
+        if: hashFiles('src/**/*.ts') != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm config set //npm.pkg.github.com/:_authToken "${GITHUB_TOKEN}"
       - name: Semantic Release
+        if: hashFiles('src/**/*.ts') != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
