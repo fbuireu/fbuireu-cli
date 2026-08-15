@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: The package on npm
+    url: https://www.npmjs.com/package/@fbuireu/fbuireu-cli
+    about: The published CLI this repository builds
+  - name: Security Policy
+    url: https://github.com/fbuireu/fbuireu-cli/security/policy
+    about: Review our security policy and report vulnerabilities privately
