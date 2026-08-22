@@ -50,14 +50,13 @@ pnpm run start          # run the CLI from source via tsx
 ## Checks
 
 ```bash
-pnpm run lint           # biome check (run format to autofix)
+pnpm run lint:all       # biome lint (run format:all to autofix)
 pnpm run typecheck      # tsc --noEmit
-pnpm test               # vitest
-pnpm run check          # lint + typecheck + coverage (85% threshold)
-pnpm run validate       # check + build — what the release job runs
+pnpm run test:ut        # vitest
+pnpm run verify         # format:check + typecheck + coverage (85% threshold) + build
 ```
 
-Husky runs lint-staged on pre-commit and commitlint on commit-msg.
+Husky runs lint-staged on pre-commit, commitlint on commit-msg and `pnpm verify` on pre-push.
 
 ## Conventions that will bite you if you skip them
 
@@ -82,7 +81,7 @@ Husky runs lint-staged on pre-commit and commitlint on commit-msg.
 ## Pull requests
 
 1. Fork, branch from `main`, make the change.
-2. Run `pnpm run validate`; fill in the PR template.
+2. Run `pnpm run verify`; fill in the PR template.
 3. After merge to `main`, semantic-release versions and publishes to npm
    automatically — there is no manual release step.
 

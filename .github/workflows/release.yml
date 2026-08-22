@@ -32,14 +32,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Check
-        run: pnpm run check
-      # Nothing is publishable until there are sources to bundle: `dist/` is built here and
-      # never committed, so publishing without `src/` would ship a package with no entry
-      # point. The guard becomes permanently true once sources land; delete it then.
-      - name: Build
-        if: hashFiles('src/**/*.ts') != ''
-        run: pnpm run build
+      # verify ends in the bundle, and is guarded the same way: nothing is publishable until
+      # there are sources to bundle, since `dist/` is built here and never committed. The
+      # guard inside verify becomes permanently true once sources land; delete it then.
+      - name: Verify
+        run: pnpm verify
       - name: Authenticate against GitHub Packages
         if: hashFiles('src/**/*.ts') != ''
         env:

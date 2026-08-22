@@ -34,11 +34,13 @@ already shipped from being reintroduced.
 | Command | Does |
 | --- | --- |
 | `pnpm run start` | Run the CLI from source via `tsx` |
-| `pnpm run lint` / `format` | Biome check / check with `--write` |
+| `pnpm run build` | Bundle to `dist/` with esbuild |
+| `pnpm run lint` / `lint:all` / `lint:all:fix` | Biome lint: the root command the variants pass paths to |
+| `pnpm run format` / `format:all` / `format:check` | Biome check with `--write`, over the tree, and read-only for CI |
 | `pnpm run typecheck` | `tsc --noEmit` |
-| `pnpm test` / `test:coverage` | Vitest, and Vitest with the 85% threshold |
-| `pnpm run check` | lint + typecheck + coverage |
-| `pnpm run validate` | `check` + build — what the release job runs |
+| `pnpm run test:ut` / `test:ut:watch` / `test:ut:coverage` | Vitest once, in watch mode, and with the 85% threshold |
+| `pnpm run test:ut:changed` | Vitest over what changed |
+| `pnpm run verify` | `format:check` + typecheck + coverage + build — the one gate CI, the release job and `pre-push` share |
 
 ## Conventions
 
