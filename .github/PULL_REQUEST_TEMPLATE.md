@@ -33,7 +33,7 @@ Fixes #<!-- issue number -->
 
 <!-- Describe the tests you ran to verify your changes -->
 
-- [ ] `pnpm run validate` passes (lint + typecheck + coverage + build)
+- [ ] `pnpm verify` passes (format check + typecheck + coverage + build)
 - [ ] Added new tests for changes
 - [ ] Ran the CLI locally (`pnpm run start`) and walked the affected Sections
 

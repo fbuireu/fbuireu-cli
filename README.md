@@ -53,8 +53,7 @@ The published package bundles everything into a single ESM file and declares
 pnpm install
 
 pnpm run start          # run the CLI from source
-pnpm run check          # lint + typecheck + coverage
-pnpm run validate       # check + build — what the release job runs
+pnpm verify             # format check + typecheck + coverage + build — what CI, the release job and pre-push all run
 ```
 
 Releases are automated with semantic-release from conventional commits; there

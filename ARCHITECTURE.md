@@ -81,7 +81,7 @@ other Section is still perfectly readable without a network.
   immediately before publishing. [ADR 0003](./docs/adr/0003-dependencies-are-bundled-and-dist-is-not-committed.md).
 - **Scripts.** `lint` = `biome check`; `typecheck` = `tsc --noEmit`; `test` / `test:coverage` = Vitest
   (v8 coverage, 85% threshold); `check` = lint + typecheck + coverage; `validate` = check + build.
-  `pnpm run validate` is what the release job runs.
+  `pnpm verify` is what CI, the release job and the pre-push hook all run.
 - **Biome** is linter and formatter both: 100 columns, 2-space, LF, single quotes, semicolons, trailing
   commas. `.gitattributes` pins `* text=auto eol=lf`.
 - **Git hooks.** Husky: `pre-commit` → lint-staged (`biome check --write`), `commit-msg` → commitlint
@@ -93,9 +93,11 @@ other Section is still perfectly readable without a network.
 
 | Workflow | Purpose |
 | --- | --- |
-| `ci.yml` | Lint, typecheck, coverage and build on every push and PR to `main` |
-| `release.yml` | semantic-release on `main`: validate, then publish to npm and GitHub Packages |
+| `ci.yml` | One `Check` job running `pnpm verify` — format check, typecheck, coverage and build — on every push and PR to `main` |
+| `release.yml` | semantic-release on `main`: `pnpm verify`, then publish to npm and GitHub Packages |
 | `zizmor.yml` | Static analysis of the workflows themselves |
+| `dependency-review.yml` | Fails a PR that introduces a dependency with a known vulnerability |
+| `commit-message.yml` | Runs commitlint on the **pull request title**. `main` takes squash merges and the repository is set to `PR_TITLE`, so that title — not the branch's commits — is the message that lands and the one semantic-release reads. The `commit-msg` hook validates commits the squash then discards, so this is the only guard on the string that ships |
 | `renovate-auto-approve.yml`, `dependabot-auto-merge.yml` | Dependency update automation |
 
 `pnpm` is the package manager everywhere — `packageManager` pins it, `pnpm-lock.yaml` is the only
