@@ -17,6 +17,12 @@ importers:
       '@commitlint/config-conventional':
         specifier: 21.2.0
         version: 21.2.0
+      '@commitlint/format':
+        specifier: 21.2.0
+        version: 21.2.0
+      '@commitlint/types':
+        specifier: 21.2.0
+        version: 21.2.0
       '@inquirer/prompts':
         specifier: 8.5.2
         version: 8.5.2(@types/node@26.2.0)
