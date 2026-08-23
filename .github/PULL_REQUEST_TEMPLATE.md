@@ -42,7 +42,7 @@ Fixes #<!-- issue number -->
 <!-- Please check all that apply using "x" -->
 
 - [ ] I have performed a self-review of my own code
-- [ ] The pure layers (`content`, `i18n`, `presentation`) stay pure — no `node:*`, no `fetch`, no clock
+- [ ] The pure layers (`content`, `i18n`, `presentation`) stay pure: no `node:*`, no `fetch`, no clock
 - [ ] Every visitor-facing string I touched exists in English, Spanish and Catalan
 - [ ] I used the glossary's words (`CONTEXT.md`) rather than synonyms
 - [ ] I updated `CONTEXT.md`, `ARCHITECTURE.md` or the ADRs if my change affects them, in this same PR

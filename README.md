@@ -7,7 +7,7 @@
 
 ## What it is
 
-One interactive command. You run it, meet a person, and leave — ideally in
+One interactive command. You run it, meet a person, and leave, ideally in
 under a minute. No install, no configuration, no analytics, nothing written to
 disk except a CV you explicitly ask for.
 
@@ -17,17 +17,17 @@ npx @fbuireu/fbuireu-cli
 
 A visit walks four Sections:
 
-- **Profile** — who this person is and what they are like to work with
-- **Roles** — positions held, with the accomplishments and technologies of each
-- **CV** — download the PDF, in the edition matching your language
-- **Contact** — ways to reach out, actionable without leaving the terminal
+- **Profile**: who this person is and what they are like to work with
+- **Roles**: positions held, with the accomplishments and technologies of each
+- **CV**: download the PDF, in the edition matching your language
+- **Contact**: ways to reach out, actionable without leaving the terminal
 
 Everything a visitor can see exists in **English, Spanish and Catalan**; the
 CLI picks up your locale and falls back gracefully.
 
 > [!NOTE]
 > **Status:** the v1 implementation has been retired and the TypeScript
-> rewrite is in progress. The design it follows is settled and recorded — see
+> rewrite is in progress. The design it follows is settled and recorded; see
 > [ARCHITECTURE.md](./ARCHITECTURE.md) for the shape and
 > [docs/adr/](./docs/adr/) for the decisions.
 
@@ -35,12 +35,12 @@ CLI picks up your locale and falls back gracefully.
 
 The scope is deliberately closed: a feature that does not help introduce this
 person to a stranger in under a minute does not belong. Under the hood it is a
-functional core with an imperative shell — pure content, i18n and presentation
-layers, with every side effect confined to one infrastructure folder.
+functional core with an imperative shell (pure content, i18n and presentation
+layers, with every side effect confined to one infrastructure folder).
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md) — the layer map, a session end to end, build and release
-- [CONTEXT.md](./CONTEXT.md) — the domain glossary the code speaks
-- [docs/adr/](./docs/adr/) — why each shape was chosen
+- [ARCHITECTURE.md](./ARCHITECTURE.md): the layer map, a session end to end, build and release
+- [CONTEXT.md](./CONTEXT.md): the domain glossary the code speaks
+- [docs/adr/](./docs/adr/): why each shape was chosen
 
 The published package bundles everything into a single ESM file and declares
 **zero runtime dependencies**, with npm provenance enabled.
@@ -49,11 +49,11 @@ The published package bundles everything into a single ESM file and declares
 
 ```bash
 # Requires the Node version in engines and pnpm (see packageManager in package.json)
-# Always pnpm — there is no package-lock.json and npm ci cannot work here
+# Always pnpm: there is no package-lock.json and npm ci cannot work here
 pnpm install
 
 pnpm run start          # run the CLI from source
-pnpm verify             # format check + typecheck + coverage + build — what CI, the release job and pre-push all run
+pnpm verify             # format check + typecheck + coverage + build, run by CI, the release job and pre-push
 ```
 
 Releases are automated with semantic-release from conventional commits; there
@@ -63,7 +63,7 @@ is no manual publish step.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) and the
 [Code of Conduct](./CODE_OF_CONDUCT.md). Security issues follow the
-[Security Policy](./SECURITY.md) — never a public issue.
+[Security Policy](./SECURITY.md), never a public issue.
 
 ## License
 

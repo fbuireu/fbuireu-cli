@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        A heads-up before you write: this project's scope is deliberately closed — it introduces one person to a stranger in under a minute, and features outside that (games, analytics, configuration) are out of scope by design. Ideas inside that scope are very welcome.
+        A heads-up before you write: this project's scope is deliberately closed. It introduces one person to a stranger in under a minute, and features outside that (games, analytics, configuration) are out of scope by design. Ideas inside that scope are very welcome.
   - type: textarea
     id: problem
     attributes:

@@ -1,6 +1,6 @@
 # Portfolio CLI
 
-The domain of introducing one person — Ferran Buireu — to whoever runs `npx @fbuireu/fbuireu-cli`. Everything here is about what the Visitor is shown and what they can take away with them; nothing about prompts, terminals or the libraries that draw them.
+The domain of introducing one person, Ferran Buireu, to whoever runs `npx @fbuireu/fbuireu-cli`. Everything here is about what the Visitor is shown and what they can take away with them; nothing about prompts, terminals or the libraries that draw them.
 
 ## The visit
 
@@ -13,13 +13,13 @@ One visit, from launch to exit. It is the unit of time in this domain: nothing i
 _Avoid_: execution, run, instance, process
 
 **Section**:
-One top-level area of the Portfolio the Visitor can enter and leave — the profile, the roles, the CV, the ways to make contact. Sections are the whole surface of the CLI; there is nothing outside them.
+One top-level area of the Portfolio the Visitor can enter and leave: the profile, the roles, the CV, the ways to make contact. Sections are the whole surface of the CLI; there is nothing outside them.
 _Avoid_: page, screen, view, menu item, command
 
 ## The content
 
 **Portfolio**:
-Everything the CLI knows about the person it introduces. It is fixed at publish time — a given version of the package says exactly one thing, forever.
+Everything the CLI knows about the person it introduces. It is fixed at publish time: a given version of the package says exactly one thing, forever.
 _Avoid_: profile, data, bio, site
 
 **Profile**:
@@ -27,7 +27,7 @@ The narrative part of the Portfolio: who this person is, what they care about, w
 _Avoid_: about, bio, intro, summary
 
 **Role**:
-One position held at one organisation over one period. Roles are the whole of the experience Section — accomplishments and technologies belong to a Role, never float free of one.
+One position held at one organisation over one period. Roles are the whole of the experience Section: accomplishments and technologies belong to a Role, never float free of one.
 _Avoid_: job, position, experience, gig, entry
 
 **Contact**:
@@ -39,7 +39,7 @@ The published PDF document. It is the only part of the Portfolio that does not t
 _Avoid_: resume, résumé, curriculum, document
 
 **CV Edition**:
-The CV in one particular language. Not every Locale has one — editions are published as they are written, and the English edition is the one guaranteed to exist.
+The CV in one particular language. Not every Locale has one: editions are published as they are written, and the English edition is the one guaranteed to exist.
 _Avoid_: version, variant, translation, copy
 
 ## Language
@@ -63,5 +63,5 @@ The canonical published location a CV Edition is retrieved from. It is authorita
 _Avoid_: url, endpoint, remote, mirror
 
 **Downloads Folder**:
-Where a Download lands — the Visitor's own downloads directory, not wherever they happened to be standing when they ran the CLI.
+Where a Download lands: the Visitor's own downloads directory, not wherever they happened to be standing when they ran the CLI.
 _Avoid_: destination, output directory, target, cwd

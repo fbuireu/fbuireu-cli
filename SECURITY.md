@@ -47,10 +47,10 @@ Send an email to **fbuireu@gmail.com** with:
 The CLI's footprint is deliberately tiny, which makes the interesting surface
 easy to name:
 
-- **The CV download** — the one network fetch and the one filesystem write in
+- **The CV download**: the one network fetch and the one filesystem write in
   the whole program. The bytes are verified to be a PDF before anything
   touches disk.
-- **The published bundle** — a single ESM file with zero runtime dependencies,
+- **The published bundle**: a single ESM file with zero runtime dependencies,
   published with npm provenance, so what runs is attestably what this
   repository built.
 
