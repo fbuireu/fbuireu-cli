@@ -70,7 +70,7 @@ Husky runs lint-staged on pre-commit, commitlint on commit-msg and `pnpm verify`
 - **Type-only imports must say so**, with `import type { … }`, or the build
   breaks under `verbatimModuleSyntax`.
 - **Path aliases across folders, relative paths inside one.** Aliases are
-  declared in `tsconfig.json` only; esbuild derives its map from there.
+  declared in [`tsconfig.json`](./tsconfig.json) only; esbuild derives its map from there.
 - **Conventional commits are mandatory**: semantic-release derives the
   version from them, and commitlint rejects anything else.
 - **The docs move with the code.** A new domain word updates

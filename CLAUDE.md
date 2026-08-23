@@ -45,8 +45,8 @@ already shipped from being reintroduced.
 ## Conventions
 
 - **Path aliases across folders, relative paths inside one.** `@content/*`, `@i18n`,
-  `@presentation/*`, `@infrastructure/*` are declared in `tsconfig.json` and mirrored into the bundle by
-  `esbuild.config.ts`, which derives its alias map from that same file. Adding an alias means adding it to
+  `@presentation/*`, `@infrastructure/*` are declared in [`tsconfig.json`](./tsconfig.json) and mirrored into the bundle by
+  [`esbuild.config.ts`](./esbuild.config.ts), which derives its alias map from that same file. Adding an alias means adding it to
   `tsconfig.json` only.
 - **Purity is the load-bearing rule.** `content`, `i18n` and `presentation` must not import `node:*`,
   must not call `fetch`, and must not read the clock. Every side effect lives in `infrastructure`. A test

@@ -10,7 +10,7 @@ Accepted.
 
 `publish-package.yml` released this package by hand: a `workflow_dispatch` with a `major | minor | patch` choice, feeding two independent publish jobs. It had three defects, and they compounded.
 
-It ran `npm ci` in a repository that has no `package-lock.json`: the lockfile here is `pnpm-lock.yaml`, and `packageManager` pins pnpm. That step could only ever fail, which means the workflow had not successfully published anything for some time and nobody had noticed.
+It ran `npm ci` in a repository that has no `package-lock.json`: the lockfile here is [`pnpm-lock.yaml`](../../pnpm-lock.yaml), and `packageManager` pins pnpm. That step could only ever fail, which means the workflow had not successfully published anything for some time and nobody had noticed.
 
 The job named *Build and Test* neither built nor tested; it installed dependencies and stopped. With a bundle now standing between the sources and the published artefact ([ADR 0003](./0003-dependencies-are-bundled-and-dist-is-not-committed.md)), a release job that does not build cannot produce a working package at all.
 
@@ -20,7 +20,7 @@ The conservative repair was to keep the manual dispatch and fix all three. It le
 
 ## Decision
 
-Releases are driven by semantic-release on `main`. Conventional commit messages determine the version; `commitlint` on a `commit-msg` hook enforces their shape at the point of writing. One job installs with pnpm, runs lint, typecheck, tests and build, and only then publishes, to npm and to GitHub Packages from the same resolved version, before committing `package.json` and `CHANGELOG.md` back and tagging.
+Releases are driven by semantic-release on `main`. Conventional commit messages determine the version; `commitlint` on a `commit-msg` hook enforces their shape at the point of writing. One job installs with pnpm, runs lint, typecheck, tests and build, and only then publishes, to npm and to GitHub Packages from the same resolved version, before committing [`package.json`](../../package.json) and `CHANGELOG.md` back and tagging.
 
 The manual dispatch is removed rather than kept alongside. Two paths to publish is how the two registries diverged.
 
