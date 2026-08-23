@@ -16,7 +16,7 @@ Whether to commit the result is a separate question, and the usual reason to ans
 
 ## Decision
 
-`esbuild` bundles `src/index.ts` into a single `dist/index.js` with the runtime dependencies inlined, targeting the Node version pinned in `.nvmrc`. The published package declares no runtime `dependencies`; `@inquirer/prompts`, `chalk` and `ora` are `devDependencies`, because at publish time that is what they are.
+`esbuild` bundles `src/index.ts` into a single `dist/index.js` with the runtime dependencies inlined, targeting the Node version pinned in [`.nvmrc`](../../.nvmrc). The published package declares no runtime `dependencies`; `@inquirer/prompts`, `chalk` and `ora` are `devDependencies`, because at publish time that is what they are.
 
 `dist/` is git-ignored and built by CI immediately before publishing. It is never committed: the constraint that forces a bundle into the tree, being consumed without an install step, does not exist for a package distributed through a registry, so committing it would buy nothing and add a generated diff to every change.
 

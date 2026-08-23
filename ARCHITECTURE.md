@@ -83,7 +83,7 @@ other Section is still perfectly readable without a network.
   (v8 coverage, 85% threshold); `check` = lint + typecheck + coverage; `validate` = check + build.
   `pnpm verify` is what CI, the release job and the pre-push hook all run.
 - **Biome** is linter and formatter both: 100 columns, 2-space, LF, single quotes, semicolons, trailing
-  commas. `.gitattributes` pins `* text=auto eol=lf`.
+  commas. [`.gitattributes`](./.gitattributes) pins `* text=auto eol=lf`.
 - **Git hooks.** Husky: `pre-commit` → lint-staged (`biome check --write`), `commit-msg` → commitlint
   (conventional commits, since the version number depends on them), `pre-push` → typecheck + changed tests + build.
 - **Release.** [`.releaserc.json`](./.releaserc.json): semantic-release on `main`, with commit-analyzer, release-notes-generator,
