@@ -74,7 +74,7 @@ other Section is still perfectly readable without a network.
 
 ## 3. Build & release
 
-- **Bundling.** `esbuild.config.ts` (run via `tsx`) bundles `src/index.ts` into a single `dist/index.js`,
+- **Bundling.** [`esbuild.config.ts`](./esbuild.config.ts) (run via `tsx`) bundles `src/index.ts` into a single `dist/index.js`,
   `platform: node`, `target: node20`, `format: esm`, with a `#!/usr/bin/env node` banner and source maps.
   Runtime dependencies are inlined, which is why `@inquirer/prompts`, `chalk` and `ora` are
   `devDependencies`: at publish time that is what they are. `dist/` is **not committed**; CI builds it
@@ -86,22 +86,22 @@ other Section is still perfectly readable without a network.
   commas. `.gitattributes` pins `* text=auto eol=lf`.
 - **Git hooks.** Husky: `pre-commit` → lint-staged (`biome check --write`), `commit-msg` → commitlint
   (conventional commits, since the version number depends on them), `pre-push` → typecheck + changed tests + build.
-- **Release.** `.releaserc.json`: semantic-release on `main`, with commit-analyzer, release-notes-generator,
+- **Release.** [`.releaserc.json`](./.releaserc.json): semantic-release on `main`, with commit-analyzer, release-notes-generator,
   changelog, npm (publishes to npmjs with provenance), exec (publishes the same version to GitHub
-  Packages), git (commits `package.json`, `pnpm-lock.yaml`, `CHANGELOG.md`, never `dist/`) and github.
+  Packages), git (commits [`package.json`](./package.json), [`pnpm-lock.yaml`](./pnpm-lock.yaml), `CHANGELOG.md`, never `dist/`) and github.
   There is no manual publish path. [ADR 0005](./docs/adr/0005-semantic-release-replaces-the-manual-publish-dispatch.md).
 
 | Workflow | Purpose |
 | --- | --- |
-| `ci.yml` | One `Check` job running `pnpm verify` (format check, typecheck, coverage and build) on every push and PR to `main` |
-| `release.yml` | semantic-release on `main`: `pnpm verify`, then publish to npm and GitHub Packages |
-| `zizmor.yml` | Static analysis of the workflows themselves |
-| `dependency-review.yml` | Fails a PR that introduces a dependency with a known vulnerability |
-| `commit-message.yml` | Runs commitlint on the **pull request title**. `main` takes squash merges and the repository is set to `PR_TITLE`, so that title, not the branch's commits, is the message that lands and the one semantic-release reads. The `commit-msg` hook validates commits the squash then discards, so this is the only guard on the string that ships |
-| `renovate-auto-approve.yml`, `dependabot-auto-merge.yml` | Dependency update automation |
+| [`ci.yml`](./.github/workflows/ci.yml) | One `Check` job running `pnpm verify` (format check, typecheck, coverage and build) on every push and PR to `main` |
+| [`release.yml`](./.github/workflows/release.yml) | semantic-release on `main`: `pnpm verify`, then publish to npm and GitHub Packages |
+| [`zizmor.yml`](./.github/workflows/zizmor.yml) | Static analysis of the workflows themselves |
+| [`dependency-review.yml`](./.github/workflows/dependency-review.yml) | Fails a PR that introduces a dependency with a known vulnerability |
+| [`commit-message.yml`](./.github/workflows/commit-message.yml) | Runs commitlint on the **pull request title**. `main` takes squash merges and the repository is set to `PR_TITLE`, so that title, not the branch's commits, is the message that lands and the one semantic-release reads. The `commit-msg` hook validates commits the squash then discards, so this is the only guard on the string that ships |
+| [`renovate-auto-approve.yml`](./.github/workflows/renovate-auto-approve.yml), [`dependabot-auto-merge.yml`](./.github/workflows/dependabot-auto-merge.yml) | Dependency update automation |
 
 `pnpm` is the package manager everywhere: `packageManager` pins it, `pnpm-lock.yaml` is the only
-lockfile, and `pnpm-workspace.yaml` holds a three-day `minimumReleaseAge` on new dependency versions.
+lockfile, and [`pnpm-workspace.yaml`](./pnpm-workspace.yaml) holds a three-day `minimumReleaseAge` on new dependency versions.
 
 ## 4. Where things live
 
