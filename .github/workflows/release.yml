@@ -23,16 +23,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Setup pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-      - name: Setup Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: ./.github/actions/prepare-env
         with:
-          node-version-file: '.nvmrc'
-          cache: pnpm
           registry-url: 'https://registry.npmjs.org'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
       # verify ends in the bundle, and is guarded the same way: nothing is publishable until
       # there are sources to bundle, since `dist/` is built here and never committed. The
       # guard inside verify becomes permanently true once sources land; delete it then.
