@@ -44,7 +44,7 @@ issue.
 # Always pnpm: there is no package-lock.json and npm ci cannot work here
 pnpm install
 
-pnpm run start          # run the CLI from source via tsx
+pnpm run dev          # run the CLI from source via tsx
 ```
 
 ## Checks

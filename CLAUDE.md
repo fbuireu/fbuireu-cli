@@ -33,7 +33,7 @@ already shipped from being reintroduced.
 
 | Command | Does |
 | --- | --- |
-| `pnpm run start` | Run the CLI from source via `tsx` |
+| `pnpm run dev` | Run the CLI from source via `tsx` |
 | `pnpm run build` | Bundle to `dist/` with esbuild |
 | `pnpm run lint` / `lint:all` / `lint:all:fix` | Biome lint: the root command the variants pass paths to |
 | `pnpm run format` / `format:all` / `format:check` | Biome check with `--write`, over the tree, and read-only for CI |

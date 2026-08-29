@@ -37,7 +37,7 @@
 	},
 	"scripts": {
 		"prepare": "husky",
-		"start": "tsx src/index.ts",
+		"dev": "tsx src/index.ts",
 		"build": "tsx esbuild.config.ts",
 		"lint": "biome lint --no-errors-on-unmatched",
 		"lint:all": "pnpm lint .",

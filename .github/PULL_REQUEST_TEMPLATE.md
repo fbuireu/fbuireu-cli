@@ -35,7 +35,7 @@ Fixes #<!-- issue number -->
 
 - [ ] `pnpm verify` passes (format check + typecheck + coverage + build)
 - [ ] Added new tests for changes
-- [ ] Ran the CLI locally (`pnpm run start`) and walked the affected Sections
+- [ ] Ran the CLI locally (`pnpm run dev`) and walked the affected Sections
 
 ## Checklist
 

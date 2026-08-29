@@ -52,7 +52,7 @@ The published package bundles everything into a single ESM file and declares
 # Always pnpm: there is no package-lock.json and npm ci cannot work here
 pnpm install
 
-pnpm run start          # run the CLI from source
+pnpm run dev          # run the CLI from source
 pnpm verify             # format check + typecheck + coverage + build, run by CI, the release job and pre-push
 ```
 
