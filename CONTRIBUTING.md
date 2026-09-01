@@ -40,7 +40,7 @@ issue.
 ## Getting started
 
 ```bash
-# Requires the Node version in engines and pnpm (see packageManager in package.json)
+# Requires the Node version in .nvmrc (engines.node repeats it) and pnpm from packageManager
 # Always pnpm: there is no package-lock.json and npm ci cannot work here
 pnpm install
 

@@ -27,6 +27,21 @@ already shipped from being reintroduced.
 - `@inquirer/prompts`, `chalk` and `ora` are **devDependencies on purpose**: they are inlined into the
   bundle, so the published package declares no runtime dependencies. Do not "fix" this by moving them.
 
+## Versions
+
+**This section names where each runtime is pinned and never what the pin says.** A digit written into a guide
+is a claim a bot invalidates on its own, and neither way of keeping it honest works: asserting it against the
+manifest fails every dependency bump on a line the bot cannot edit, and not asserting it lets the digit rot
+in place. Read the file.
+
+- **Node**: [`.nvmrc`](./.nvmrc), which is what CI installs, and `engines.node`, which is the same fact
+  written twice. They had drifted apart, silently, because nothing compared them.
+- **pnpm**: `packageManager`, and nowhere else.
+
+[`docs/docs-consistency.test.ts`](./docs/docs-consistency.test.ts) asserts only the shape a bump cannot
+change: both runtimes are named here, Node's two spellings agree, each pin is exact rather than a range, and
+no workflow re-pins one the manifest already pins.
+
 ## Commands
 
 `pnpm`, always. There is no `package-lock.json` and `npm ci` cannot work here.
@@ -40,6 +55,7 @@ already shipped from being reintroduced.
 | `pnpm run typecheck` | `tsc --noEmit` |
 | `pnpm run test:ut` / `test:ut:watch` / `test:ut:coverage` | Vitest once, in watch mode, and with the 85% threshold |
 | `pnpm run test:ut:changed` | Vitest over what changed |
+| `pnpm run test:docs` | The docs contract alone: the pinned-version rules above |
 | `pnpm run verify` | `format:check` + typecheck + coverage + build: the one gate CI, the release job and `pre-push` share |
 
 ## Conventions

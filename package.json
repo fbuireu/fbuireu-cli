@@ -28,7 +28,7 @@
 	"author": "Ferran Buireu <fbuireu@gmail.com>",
 	"license": "MIT",
 	"engines": {
-		"node": "v26.5.1"
+		"node": "26.2.0"
 	},
 	"packageManager": "pnpm@11.21.0",
 	"publishConfig": {
@@ -49,6 +49,7 @@
 		"test:ut": "vitest run --logHeapUsage",
 		"test:ut:watch": "vitest",
 		"test:ut:coverage": "pnpm test:ut --coverage",
+		"test:docs": "vitest run docs/docs-consistency.test.ts",
 		"test:ut:changed": "pnpm test:ut --changed HEAD",
 		"verify": "pnpm format:check && pnpm typecheck && pnpm test:ut:coverage && { [ ! -d src ] || pnpm build; }"
 	},
