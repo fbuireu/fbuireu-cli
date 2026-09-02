@@ -19,7 +19,7 @@ already shipped from being reintroduced.
 
 ## Stack
 
-- **TypeScript 7** with `verbatimModuleSyntax` and `isolatedModules`: type-only imports must be written
+- **TypeScript** with `verbatimModuleSyntax` and `isolatedModules`: type-only imports must be written
   `import type { … }` or `import { type X }`, or the build breaks. `resolveJsonModule` is on, which is how
   the locale bundles are imported and type-checked.
 - **esbuild** bundles to one ESM file (`platform: node`, `target: node20`), **Vitest** (v8 coverage),
@@ -39,8 +39,9 @@ in place. Read the file.
 - **pnpm**: `packageManager`, and nowhere else.
 
 [`docs/docs-consistency.test.ts`](./docs/docs-consistency.test.ts) asserts only the shape a bump cannot
-change: both runtimes are named here, Node's two spellings agree, each pin is exact rather than a range, and
-no workflow re-pins one the manifest already pins.
+change: both runtimes are named here, Node's two spellings agree, each pin is exact rather than a range, no
+workflow re-pins one the manifest already pins, no document names a runtime or a framework beside a version,
+and the esbuild target the Stack bullet quotes is read out of the config rather than written down twice.
 
 ## Commands
 
