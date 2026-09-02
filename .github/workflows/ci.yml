@@ -33,3 +33,43 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
           fail_ci_if_error: false
+
+  release:
+    name: Semantic Release
+    needs: [check]
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      packages: write
+      id-token: write
+    concurrency:
+      group: release
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+          persist-credentials: false
+      - uses: ./.github/actions/prepare-env
+        with:
+          registry-url: 'https://registry.npmjs.org'
+      - name: Build
+        if: hashFiles('src/**/*.ts') != ''
+        run: pnpm build
+      - name: Authenticate against GitHub Packages
+        if: hashFiles('src/**/*.ts') != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm config set //npm.pkg.github.com/:_authToken "${GITHUB_TOKEN}"
+      - name: Semantic Release
+        if: hashFiles('src/**/*.ts') != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: pnpm exec semantic-release

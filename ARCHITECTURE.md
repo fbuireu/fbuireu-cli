@@ -93,12 +93,11 @@ other Section is still perfectly readable without a network.
 
 | Workflow | Purpose |
 | --- | --- |
-| [`ci.yml`](./.github/workflows/ci.yml) | One `Check` job running `pnpm verify` (format check, typecheck, coverage and build) on every push and PR to `main` |
-| [`release.yml`](./.github/workflows/release.yml) | semantic-release on `main`: `pnpm verify`, then publish to npm and GitHub Packages |
+| [`ci.yml`](./.github/workflows/ci.yml) | One `Check` job running `pnpm verify` (format check, typecheck, coverage and build) on every push and PR to `main`, and on a push to `main` a `release` job that needs it: it rebuilds the bundle in its own checkout, then semantic-release publishes to npm and GitHub Packages and pushes the release commit with the `PAT` secret, the way every sibling repository does. The release used to be a `release.yml` of its own that re-ran `verify`, so every push verified twice |
 | [`zizmor.yml`](./.github/workflows/zizmor.yml) | Static analysis of the workflows themselves |
 | [`dependency-review.yml`](./.github/workflows/dependency-review.yml) | Fails a PR that introduces a dependency with a known vulnerability |
 | [`commit-message.yml`](./.github/workflows/commit-message.yml) | Runs commitlint on the **pull request title**. `main` takes squash merges and the repository is set to `PR_TITLE`, so that title, not the branch's commits, is the message that lands and the one semantic-release reads. The `commit-msg` hook validates commits the squash then discards, so this is the only guard on the string that ships |
-| [`renovate-auto-approve.yml`](./.github/workflows/renovate-auto-approve.yml), [`dependabot-auto-merge.yml`](./.github/workflows/dependabot-auto-merge.yml) | Dependency update automation |
+| [`dependabot-auto-merge.yml`](./.github/workflows/dependabot-auto-merge.yml) | Merges the security updates Dependabot raises; Renovate merges its own once `Check` is green, since the ruleset requires no approval |
 
 `pnpm` is the package manager everywhere: `packageManager` pins it, `pnpm-lock.yaml` is the only
 lockfile, and [`pnpm-workspace.yaml`](./pnpm-workspace.yaml) holds a three-day `minimumReleaseAge` on new dependency versions.
@@ -128,9 +127,9 @@ has quietly become false is worse than no list at all.
 - **`src/` does not exist.** The v1 `index.js` was deleted and the TypeScript rewrite has not landed. §1 and
   §2 are therefore a specification, not a description. Lint, typecheck and coverage already pass on the
   empty tree; only `build` cannot run without an entry point, so a `hashFiles('src/**/*.ts')` guard skips it
-  in `ci.yml`, skips the build and publish steps in `release.yml` (publishing without `dist/` would ship a
-  package whose `bin` does not exist), and a matching `[ ! -d src ]` guard sits in `.husky/pre-push`. All
-  three become permanently true when sources land, and should be deleted then rather than left to rot.
+  in `ci.yml`'s `release` job, on the build and publish steps (publishing without `dist/` would ship a
+  package whose `bin` does not exist), and a matching `[ ! -d src ]` guard sits in `verify` and in `.husky/pre-push`. All
+  of them become permanently true when sources land, and should be deleted then rather than left to rot.
   (`hashFiles` only works in a step-level `if`: at job level it is evaluated before checkout and the
   workflow fails to start.)
 - **The Portfolio has no content.** The v1 printed `'Hobbies and interests: TODO'` and three siblings of it.
