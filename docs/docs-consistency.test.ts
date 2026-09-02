@@ -74,7 +74,7 @@ describe("pinned versions", () => {
 // The esbuild target is the one number the guides may state, because it is a decision rather than a
 // dependency: it is read from the config here so the guides cannot drift from it.
 const STATED_VERSION =
-	/\b(?:Node(?:\.js)?|pnpm|TypeScript|Astro|Next(?:\.js)?|React|Effect|Flutter|Dart|[Ww]rangler|Ruby|Starlight)\s+(?:v|@)?\d+(?:\.\d+)*\b/g;
+	/\b(?:Node(?:\.js)?|pnpm|TypeScript|Astro|Next(?:\.js)?|React|Effect|Flutter|Dart|[Ww]rangler|Ruby|Starlight|Tailwind(?: CSS)?)\s+(?:v|@)?\d+(?:\.\d+)*\b/g;
 const BUNDLE_TARGET = read("esbuild.config.ts").match(/target:\s*"([^"]+)"/)?.[1] ?? "";
 const SKIPPED_DOCUMENT_DIRECTORIES = new Set(["node_modules", "dist", ".git", "adr"]);
 
