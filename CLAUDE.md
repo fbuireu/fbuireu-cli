@@ -51,8 +51,8 @@ and the esbuild target the Stack bullet quotes is read out of the config rather 
 | --- | --- |
 | `pnpm run dev` | Run the CLI from source via `tsx` |
 | `pnpm run build` | Bundle to `dist/` with esbuild |
-| `pnpm run lint` / `lint:all` / `lint:all:fix` | Biome lint: the root command the variants pass paths to |
-| `pnpm run format` / `format:all` / `format:check` | Biome check with `--write`, over the tree, and read-only for CI |
+| `pnpm run lint` / `lint:all` / `lint:all:fix` / `lint:changed` | Biome lint: the root command the variants pass paths to, the last one over what changed against main |
+| `pnpm run format` / `format:all` / `format:changed` / `format:check` | Biome check with `--write`, over the tree, over what changed against main, and read-only for CI |
 | `pnpm run typecheck` | `tsc --noEmit` |
 | `pnpm run test:ut` / `test:ut:watch` / `test:ut:coverage` | Vitest once, in watch mode, and with the 85% threshold |
 | `pnpm run test:ut:changed` | Vitest over what changed |
