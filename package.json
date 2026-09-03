@@ -13,6 +13,16 @@
 		"terminal",
 		"typescript"
 	],
+	"author": "Ferran Buireu <fbuireu@gmail.com>",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fbuireu/fbuireu-cli.git"
+	},
+	"homepage": "https://github.com/fbuireu/fbuireu-cli#readme",
+	"bugs": {
+		"url": "https://github.com/fbuireu/fbuireu-cli/issues"
+	},
 	"type": "module",
 	"main": "./dist/index.js",
 	"bin": {
@@ -21,20 +31,14 @@
 	"files": [
 		"dist"
 	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/fbuireu/fbuireu-cli.git"
-	},
-	"author": "Ferran Buireu <fbuireu@gmail.com>",
-	"license": "MIT",
-	"engines": {
-		"node": "26.2.0"
-	},
-	"packageManager": "pnpm@11.24.0",
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
 	},
+	"engines": {
+		"node": "26.2.0"
+	},
+	"packageManager": "pnpm@11.24.0",
 	"scripts": {
 		"prepare": "husky",
 		"dev": "tsx src/index.ts",
@@ -49,8 +53,8 @@
 		"test:ut": "vitest run --logHeapUsage",
 		"test:ut:watch": "vitest",
 		"test:ut:coverage": "pnpm test:ut --coverage",
-		"test:docs": "vitest run docs/docs-consistency.test.ts",
-		"test:ut:changed": "pnpm test:ut --changed HEAD",
+		"test:docs": "pnpm test:ut docs/docs-consistency.test.ts",
+		"test:ut:changed": "pnpm test:ut --changed origin/main",
 		"verify": "pnpm format:check && pnpm typecheck && pnpm test:ut:coverage && { [ ! -d src ] || pnpm build; }"
 	},
 	"devDependencies": {
@@ -78,9 +82,5 @@
 		"tsx": "4.23.12",
 		"typescript": "7.0.2",
 		"vitest": "4.1.11"
-	},
-	"bugs": {
-		"url": "https://github.com/fbuireu/fbuireu-cli/issues"
-	},
-	"homepage": "https://github.com/fbuireu/fbuireu-cli#readme"
+	}
 }
