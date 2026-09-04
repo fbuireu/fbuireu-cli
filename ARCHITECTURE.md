@@ -19,7 +19,6 @@ records why the smaller tree, and what is being traded for it.
 ---
 config:
   look: handDrawn
-  theme: neutral
 ---
 flowchart TD
     idx["src/index.ts<br/>argv + env"] --> cli["src/cli.ts<br/>the Session"]
@@ -33,8 +32,8 @@ flowchart TD
     pres --> i18n
     infra --> i18n
 
-    classDef pure fill:#8a6a0f,stroke:#dfb317,stroke-width:2px,color:#fff
-    classDef shell fill:#9b2530,stroke:#d73a49,stroke-width:2px,color:#fff
+    classDef pure stroke:#dfb317,stroke-width:3px
+    classDef shell stroke:#d73a49,stroke-width:3px
     class content,i18n,pres pure
     class idx,cli,infra shell
 ```
